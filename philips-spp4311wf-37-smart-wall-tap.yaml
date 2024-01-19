@@ -1,0 +1,60 @@
+# https://esphome.io/guides/configuration-types.html#substitutions
+substitutions:
+  # Must be unique per device, and same as yaml file name.
+  name: philips-spp4311wf-smart-wall-tap
+  # Must be unique per device
+  friendly_name: philips-spp4311wf-smart-wall-tap
+  # Relay prefix (can change to "Switch 1", "Toggle 2", etc)
+  relay_prefix: Relay
+
+esphome:
+  name: $name
+  friendly_name: $friendly_name
+
+bk72xx:
+  board: generic-bk7231n-qfn32-tuya
+
+# Enable logging
+logger:
+
+web_server:
+
+captive_portal:
+
+mdns:
+
+text_sensor:
+  - platform: version
+    name: ESPHome Version
+
+switch:
+  - platform: gpio
+    id: switch_1
+    name: ${relay_prefix} 1
+    pin: P6
+  - platform: gpio
+    id: switch_2
+    name: ${relay_prefix} 2
+    pin: P26
+  - platform: gpio
+    id: switch_3
+    name: ${relay_prefix} 3
+    pin: P24
+
+binary_sensor:
+  - platform: gpio
+    id: binary_switch_all
+    pin:
+      number: P11
+      inverted: true
+      mode: INPUT_PULLUP
+    on_press:
+      then:
+        - switch.toggle: switch_1
+        - switch.toggle: switch_2
+        - switch.toggle: switch_3
+
+status_led:
+  pin:
+    number: P10
+    inverted: true
