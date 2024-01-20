@@ -1,0 +1,59 @@
+# https://esphome.io/guides/configuration-types.html#substitutions
+substitutions:
+  # Must be unique per device, and same as yaml file name.
+  name: generic-bulb-635eff
+  # Must be unique per device
+  friendly_name: generic-bulb-635eff
+
+esphome:
+  name: $name
+  friendly_name: $friendly_name
+
+bk72xx:
+  board: generic-bk7231t-qfn32-tuya
+
+web_server:
+
+captive_portal:
+
+mdns:
+
+sm2135:
+  clock_pin: P8
+  data_pin: P26
+  rgb_current: 15mA
+  cw_current: 60mA
+
+output:
+  - platform: sm2135
+    id: output_red
+    channel: 2
+  - platform: sm2135
+    id: output_green
+    channel: 1
+  - platform: sm2135
+    id: output_blue
+    channel: 0
+  - platform: sm2135
+    id: output_cold
+    channel: 4
+  - platform: sm2135
+    id: output_warm
+    channel: 3
+
+light:
+  - platform: rgbww
+    id: light_rgbww
+    name: Light
+    color_interlock: true
+    cold_white_color_temperature: 6500 K
+    warm_white_color_temperature: 2700 K
+    red: output_red
+    green: output_green
+    blue: output_blue
+    cold_white: output_cold
+    warm_white: output_warm
+
+text_sensor:
+  - platform: version
+    name: ESPHome Version
